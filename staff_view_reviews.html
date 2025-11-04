@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Flight Reviews</h2>
+<!--<table border="1">
+    <tr>
+        <th>Flight Number</th>
+        <th>Departure Date/Time</th>
+        <th>Average Review</th>
+        <th>Number of Reviews</th>
+    </tr>
+    {% for row in reviews %}
+    <tr>
+        <td>{{ row.flight_number }}</td>
+        <td>{{ row.departure_datetime }}</td>
+        <td>{{ row.avg_review or 'N/A' }}</td>
+        <td>{{ row.num_reviews }}</td>
+    </tr>
+    {% endfor %}
+</table>-->
+<div class="card">
+    <h2>Flight Reviews</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Flight Number</th>
+            <th>Departure Date/Time</th>
+            <th>Average Review</th>
+            <th>Number of Reviews</th>
+            <th>Comments</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in reviews %}
+        <tr>
+            <td>{{ row.flight_number }}</td>
+            <td>{{ row.departure_datetime }}</td>
+            <td>{{ row.avg_review or 'N/A' }}</td>
+            <td>{{ row.num_reviews }}</td>
+            <td>
+                <a href="{{ url_for('view_comments', flight_number=row.flight_number) }}"
+                   class="btn btn-secondary">View Comments</a>
+            </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}
+s

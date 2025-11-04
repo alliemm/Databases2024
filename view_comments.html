@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Flight Comments</h2>
+<div class="card">
+    <table class="table no-stripe">
+        <thead>
+        <tr>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>{{ r.comment }}</td>
+
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

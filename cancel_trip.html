@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Cancel Trip</h2>
+    <p>Are you sure you want to cancel ticket ID: {{ ticket_id }}?</p>
+    <form action="/cancel_trip/confirm" method="POST" class="search-form">
+        <input type="hidden" name="ticket_id" value="{{ ticket_id }}">
+        <div class="action-buttons">
+            <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+            <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

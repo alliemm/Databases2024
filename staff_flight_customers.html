@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-container">
+    <div class="card">
+        <div class="header-section">
+            <h1>Flight {{ flight.flight_number }} - Customers</h1>
+            <div>
+                <a href="{{ url_for('staff_view_flights') }}" class="btn btn-secondary">Back to Flights</a>
+            </div>
+        </div>
+        <div class="card-content">
+            <!-- Flight Details -->
+            <div class="flight-details">
+                <h2>Flight Information</h2>
+                <div class="info-grid">
+                    <div class="info-item"><label>Flight Number:</label> <span>{{ flight.flight_number }}</span></div>
+                    <div class="info-item"><label>Departure:</label> <span>{{ flight.departure_datetime.strftime('%Y-%m-%d %H:%M') }}</span></div>
+                    <div class="info-item"><label>Arrival:</label> <span>{{ flight.arrival_datetime.strftime('%Y-%m-%d %H:%M') }}</span></div>
+                    <div class="info-item"><label>From:</label> <span>{{ flight.departure_airport_code }}</span></div>
+                    <div class="info-item"><label>To:</label> <span>{{ flight.arrival_airport_code }}</span></div>
+                    <div class="info-item"><label>Status:</label> <span>{{ flight.status }}</span></div>
+                </div>
+            </div>
+            {% if customers %}
+            <div class="customers-list">
+                <h2>Customers on this Flight</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Ticket Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>${{ '%.2f'|format(customer.sold_price) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>No customers found for this flight.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

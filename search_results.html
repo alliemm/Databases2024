@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1 class="text-center">Flight Search Results</h1>
+
+    <!-- Outbound Flights -->
+    <div class="search-results-container">
+        <h2 class="text-center">Outbound Flights</h2>
+        {% if outbound_flights %}
+            {% for flight in outbound_flights %}
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <h3>Flight {{ flight.flight_number }} - {{ flight.airline_name }}</h3>
+                        <p>
+                            <strong>Departure:</strong>
+                            <span>{{ flight.departure_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.departure_airport_code }})</span>
+                        </p>
+                        <p>
+                            <strong>Arrival:</strong>
+                            <span>{{ flight.arrival_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.arrival_airport_code }})</span>
+                        </p>
+                        <p>
+                            <strong>Status:</strong>
+                            <span>{{ flight.status }}</span>
+                        </p>
+                        <p class="price">
+                            <strong>Price:</strong>
+                            <span>${{ flight.base_price }}</span>
+                        </p>
+                        {% if 'username' in session and session['user_type'] == 'customer' %}
+                            <form action="{{ url_for('purchase_ticket') }}" method="POST" class="text-center">
+                                <input type="hidden" name="flight_number" value="{{ flight.flight_number }}">
+                                <input type="hidden" name="airline_name" value="{{ flight.airline_name }}">
+                                <button type="submit" class="btn btn-primary">Purchase Ticket</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No outbound flights found.</p>
+        {% endif %}
+    </div>
+
+    <!-- Return Flights -->
+    {% if trip_type == 'round_trip' %}
+    <div class="search-results-container">
+        <h2 class="text-center">Return Flights</h2>
+        {% if return_flights %}
+            {% for flight in return_flights %}
+                <div class="flight-card">
+                    <div class="flight-info">
+                        <h3>Flight {{ flight.flight_number }} - {{ flight.airline_name }}</h3>
+                        <p>
+                            <strong>Departure:</strong>
+                            <span>{{ flight.departure_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.departure_airport_code }})</span>
+                        </p>
+                        <p>
+                            <strong>Arrival:</strong>
+                            <span>{{ flight.arrival_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.arrival_airport_code }})</span>
+                        </p>
+                        <p>
+                            <strong>Status:</strong>
+                            <span>{{ flight.status }}</span>
+                        </p>
+                        <p class="price">
+                            <strong>Price:</strong>
+                            <span>${{ flight.base_price }}</span>
+                        </p>
+                        {% if 'username' in session and session['user_type'] == 'customer' %}
+                            <form action="{{ url_for('purchase_ticket') }}" method="POST" class="text-center">
+                                <input type="hidden" name="flight_number" value="{{ flight.flight_number }}">
+                                <input type="hidden" name="airline_name" value="{{ flight.airline_name }}">
+                                <button type="submit" class="btn btn-primary">Purchase Ticket</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No return flights found.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="form-group text-center">
+        <a href="javascript:history.back()" class="btn btn-secondary">Back to Search</a>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1 class="text-center">Purchase Ticket</h1>
+    
+    <div class="flight-info">
+        <h3>Flight Details</h3>
+        <p><strong>Flight Number:</strong> {{ flight.flight_number }}</p>
+        <p><strong>Airline:</strong> {{ flight.airline_name }}</p>
+        <p><strong>Departure:</strong> {{ flight.departure_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.departure_airport_code }})</p>
+        <p><strong>Arrival:</strong> {{ flight.arrival_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.arrival_airport_code }})</p>
+        <p><strong>Base Price:</strong> ${{ flight.base_price }}</p>
+        <p class="text-info"><em>Note: If the flight is 60% or more full, a 20% surcharge will be added to the base price.</em></p>
+    </div>
+
+    <form action="{{ url_for('process_purchase') }}" method="POST" class="form">
+        <input type="hidden" name="flight_number" value="{{ flight.flight_number }}">
+        <input type="hidden" name="airline_name" value="{{ flight.airline_name }}">
+        
+        <div class="form-group">
+            <label for="card_number">Credit/Debit Card Number:</label>
+            <input type="text" class="form-control" id="card_number" name="card_number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="card_name">Name on Card:</label>
+            <input type="text" class="form-control" id="card_name" name="card_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="expiry_date">Expiry Date (MM/YY):</label>
+            <input type="text" class="form-control" id="expiry_date" name="expiry_date" pattern="(0[1-9]|1[0-2])\/([0-9]{2})" required>
+        </div>
+
+        <div class="form-group">
+            <label for="card_type">Card Type:</label>
+            <select class="form-control" id="card_type" name="card_type" required>
+                <option value="Credit">Credit</option>
+                <option value="Debit">Debit</option>
+            </select>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">Complete Purchase</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %} 

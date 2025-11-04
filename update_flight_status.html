@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="header-section">
+            <h1>Update Flight Status - {{ flight.flight_number }}</h1>
+            <a href="{{ url_for('staff_view_flights') }}" class="btn btn-secondary">Back to Flights</a>
+        </div>
+
+        <div class="card">
+            <h2>Flight Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Flight Number:</label>
+                    <span>{{ flight.flight_number }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Departure:</label>
+                    <span>{{ flight.departure_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.departure_airport_code }})</span>
+                </div>
+                <div class="info-item">
+                    <label>Arrival:</label>
+                    <span>{{ flight.arrival_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.arrival_airport_code }})</span>
+                </div>
+                <div class="info-item">
+                    <label>Current Status:</label>
+                    <span class="status-badge status-{{ flight.status.lower().replace(' ', '_') }}">{{ flight.status }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Update Status</h2>
+            <form action="{{ url_for('update_flight_status') }}" method="POST" class="search-form">
+                <input type="hidden" name="flight_number" value="{{ flight.flight_number }}">
+                
+                <div class="form-group">
+                    <label for="status">New Status:</label>
+                    <select name="status" id="status" required>
+                        <option value="On Time" {% if flight.status == 'On Time' %}selected{% endif %}>On Time</option>
+                        <option value="Delayed" {% if flight.status == 'Delayed' %}selected{% endif %}>Delayed</option>
+                        <option value="Cancelled" {% if flight.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

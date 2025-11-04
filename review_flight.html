@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Review Your Trip</h2>
+    <form action="/submit_review" method="POST" class="search-form">
+        <input type="hidden" name="airline_name" value="{{ ticket.airline_name }}">
+        <input type="hidden" name="flight_number" value="{{ ticket.flight_number }}">
+        <input type="hidden" name="departure_datetime" value="{{ ticket.departure_datetime }}">
+        
+        <div class="form-group">
+            <label for="review">Rating (1-5):</label>
+            <input type="number" name="review" id="review" min="1" max="5" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <input type="text" name="comment" id="comment" class="form-control" required>
+        </div>
+        
+        <div class="action-buttons">
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+            <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

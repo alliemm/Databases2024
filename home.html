@@ -1,0 +1,47 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="card">
+    <div class="text-center">
+        <h1>Airline Reservation System</h1>
+    </div>
+    
+    <!-- Flight Search Form -->
+    <div class="search-form">
+        <h2 class="text-center">Search Flights</h2>
+        <form action="/search_flights" method="POST">
+            <div class="form-group">
+                <label for="source">From:</label>
+                <input type="text" name="source" id="source" required placeholder="Enter airport code (e.g. JFK)" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="destination">To:</label>
+                <input type="text" name="destination" id="destination" required placeholder="Enter airport code (e.g. LAX)" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="departure_date">Departure Date:</label>
+                <input type="date" name="departure_date" id="departure_date" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="trip_type">Trip Type:</label>
+                <select name="trip_type" id="trip_type" class="form-control">
+                    <option value="one_way">One Way</option>
+                    <option value="round_trip">Round Trip</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="return_date">Return Date (for round trip):</label>
+                <input type="date" name="return_date" id="return_date" class="form-control">
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Search Flights</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

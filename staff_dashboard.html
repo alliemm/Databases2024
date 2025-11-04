@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Welcome, {{ session['first_name'] }} {{ session['last_name'] }}!</h1>
+    <h2>{{ session['airline_name'] }} Staff Dashboard</h2>
+
+    <div class="card">
+        <h3>Quick Actions</h3>
+        <div class="form-group quick-actions">
+            <a href="{{ url_for('staff_view_flights') }}" class="btn btn-secondary">View All Flights</a>
+            <a href="{{ url_for('staff_create_flight') }}" class="btn btn-secondary">Create New Flight</a>
+            <a href="{{ url_for('add_airplane') }}" class="btn btn-secondary">Add New Airplane</a>
+            <a href="{{ url_for('add_airport') }}" class="btn btn-secondary">Add New Airport</a>
+            <a href="{{ url_for('staff_view_flights') }}" class="btn btn-secondary">Update Flight Status</a>
+            <a href="{{ url_for('staff_view_reports') }}" class="btn btn-primary btn-dashboard">View Reports</a>
+            <a href="{{ url_for('staff_view_reviews') }}" class="btn btn-primary btn-dashboard">View Flight Reviews</a>
+        </div>
+    </div>
+
+    <!-- View Flights Section -->
+    <div class="card">
+        <h3>Upcoming Flights (Next 30 Days)</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights %}
+                <tr>
+                    <td>{{ flight.flight_number }}</td>
+                    <td>{{ flight.departure_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.departure_airport_code }})</td>
+                    <td>{{ flight.arrival_datetime.strftime('%Y-%m-%d %H:%M') }} ({{ flight.arrival_airport_code }})</td>
+                    <td>{{ flight.status }}</td>
+                    <td>
+                        <a href="{{ url_for('staff_flight_customers', flight_number=flight.flight_number) }}" 
+                           class="btn btn-secondary">View Customers</a>
+                        <a href="{{ url_for('update_flight_status_page', flight_number=flight.flight_number) }}" 
+                           class="btn btn-primary">Update Status</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
